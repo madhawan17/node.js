@@ -1,4 +1,3 @@
-const http = require ("http")
 const express = require ("express")
 
 const app = express();
@@ -11,8 +10,6 @@ app.get("/about", (req,res) => {
     return res.send("hi from about page")
 });
 
-const myserver = http.createServer(app);
-
-myserver.listen(8000, () => {
+app.listen(8000, () => {
     console.log('server started');
 });
