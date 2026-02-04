@@ -11,6 +11,14 @@ app.use(express.urlencoded({extended:false}));
     return res.json(users)
 });
 
+app.use((req,res, next) => {
+    fs.appendFile("log.txt", `\n${Date.now()}:{req.ip} ${req.method}: ${req.method}: ${req.path} `, (err, data) => {
+        next();
+    } );
+});
+
+
+// routes 
 app
 .route("/api/users/:id")
 .get( (req,res) => {
