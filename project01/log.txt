@@ -12,4 +12,9 @@
 1770303377866:{req.ip} GET: GET: /users 
 1770303378049:{req.ip} GET: GET: /users 
 1770303414045:{req.ip} GET: GET: /users 
-1770303571085:{req.ip} POST: POST: /api/users 
+1770303571085:{req.ip} POST: POST: /api/users 1770312400958 : ::1 &{req.mentod} : /api/users
+1770312478318 : ::1 &{req.mentod} : /api/users
+1770312558098 : ::1 &{req.mentod} : /api/users
+1770312563789 : ::1 &{req.mentod} : /api/users
+1770312564421 : ::1 &{req.mentod} : /api/users
+1770312657960 : ::1 &{req.mentod} : /api/users
