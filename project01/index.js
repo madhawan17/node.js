@@ -48,20 +48,42 @@ app.use((req,res, next) => {
     } );
 });
 
+//Routes
+app.get('/users', async(req, res)=>{
+
+    const allDbUsers = await user.find({});
+
+    const html = `
+    <ul>
+    ${allDbUsers.map(user => `<li>${user.firstName} - ${user.email}</li>`).join("")}
+    <ul>
+    `
+    res.send(html)
+})
+
+//REST Api
+
+app.get('/api/users', async(req, res)=>{
+
+    const allDbUsers = await user.find({});
+    return res.json(allDbUsers);
+
+})
 
 // routes 
 app
 .route("/api/users/:id")
-.get( (req,res) => {
-    const id = Number(req.params.id);
-    const user = users.find((user) => user.id === id);
+.get(async (req,res) => {
+    const user = await user.findById(req.params.id)
+    if(!user) return req.status(404).json({error : 'User Not found'});
     return res.json(user);
 })
-.patch( (req,res) => {
-   
+.patch(async (req,res) => {
+     await user.findByIdAndUpdate(req.params.id ,{ lastName:"Changed" } );
     return res.json({status: "pending"});
 })
-.delete( (req,res) => {
+.delete(async (req,res) => {
+    await user.findByIdAndDelete(req.params.id);
     return res.json({status: "pending"});
     
 });
