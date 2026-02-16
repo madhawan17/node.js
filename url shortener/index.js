@@ -1,9 +1,12 @@
 const express = require("express");
 const { connectToMongoDB } = require('./connect')
-const urlRoute = require('./routes/url')
-const staticRoute = require('./routes/staticRouter')
+
 const path = require('path')
 const URL = require('./models/url');
+
+const urlRoute = require('./routes/url')
+const staticRoute = require('./routes/staticRouter')
+const userRoute = require('./routes/user')
 
 const app = express();
 const PORT = 8001;
@@ -18,6 +21,7 @@ app.use(express.json())
 app.use(express.urlencoded({extended:false})) //for form data
 
 app.use("/url" , urlRoute)
+app.use("/user" , userRoute)
 app.use("/" , staticRoute)
 
 // Server Side Rendering -> 
