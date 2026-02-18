@@ -1,7 +1,7 @@
 const express = require("express");
 const { connectToMongoDB } = require('./connect')
 const cookieParser = require("cookie-parser");
-const { restrictToLoggedInUserOnly,checkAuth } = require("./middleware/auth")
+const { checkForAuthentication, restrictTo} = require("./middleware/auth")
 
 const path = require('path')
 const URL = require('./models/url');
@@ -22,10 +22,11 @@ app.set("views" , path.resolve("./views"))
 app.use(express.json());
 app.use(express.urlencoded({extended:false}));
 app.use(cookieParser());
+app.use(checkForAuthentication);
 
-app.use("/url", restrictToLoggedInUserOnly , urlRoute)
-app.use("/user" , userRoute)
-app.use("/" , checkAuth, staticRoute)
+app.use("/url", restrictTo(["NORMAL"]), urlRoute);
+app.use("/user" , userRoute);
+app.use("/" , staticRoute);
 
 // Server Side Rendering -> 
 // Write html on server side -> complicated
