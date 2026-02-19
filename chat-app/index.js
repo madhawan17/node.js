@@ -5,7 +5,14 @@ const { Server } = require("socket.io");
 
 const app = express();
 const server = http.createServer(app);
-const 
+const io = new Server(server);
+
+io.on("connection", (socket) => {
+    socket.on("user-message", (message) => {
+    console.log('A new user message', message);    
+    });
+    
+});
 
 app.use(express.static(path.resolve("./public")));
 
