@@ -67,3 +67,16 @@ Example:
 // Use if, for, while, etc.
 
 // Create block-level scope (with let & const)
+
+// set timeout  + closures
+ function x() {
+  var i = 1;
+  
+  setTimeout(function () {
+    console.log(i);
+  }, 3000);
+  
+  console.log("Namaste Javascript");
+}
+
+x();
