@@ -27,5 +27,11 @@ const configCors = () => {
             'Content-Range',
             ], 
         credentials : true, // allow cookies and authentication information to be sent with requests
+        preflightContinue : false, // whether to pass the CORS preflight response to the next handler
+        maxAge : 600, // how long the results of a preflight request can be cached by the client (in seconds)
+        optionsSuccessStatus : 204, // the status code to send for successful OPTIONS requests
+
     })
 }
+
+module.exports = { configCors };
