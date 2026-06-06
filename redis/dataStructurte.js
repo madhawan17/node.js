@@ -91,6 +91,9 @@ async function redisDataStructure() {
     const getProductName = await client.hGet("product:1", "name");
     console.log(getProductName);
 
+    const getAllProductDetails = await client.hGetAll("product:1");
+    console.log(getAllProductDetails);
+
     } catch (err) {
         console.error(err);
     } finally {
