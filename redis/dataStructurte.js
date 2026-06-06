@@ -38,16 +38,58 @@ async function redisDataStructure() {
 
         // sets-> SADD, SMEMBERS, SREM
 
-        await client.sAdd("nicknames", ["maddy", "madhu", "madhawan"]);
-        const nickName = await client.sMembers("nicknames");
-        console.log(nickName);
+        // await client.sAdd("nicknames", ["maddy", "madhu", "madhawan"]);
+        // const nickName = await client.sMembers("nicknames");
+        // console.log(nickName);
 
-        const isMember = await client.sIsMember("nicknames", "maddy");
-        console.log(isMember);
+        // const isMember = await client.sIsMember("nicknames", "maddy");
+        // console.log(isMember);
 
-        await client.sRem("nicknames", "madhu");
-        const updatedNickNames = await client.sMembers("nicknames");
-        console.log(updatedNickNames);
+        // await client.sRem("nicknames", "madhu");
+        // const updatedNickNames = await client.sMembers("nicknames");
+        // console.log(updatedNickNames);
+
+    //sorted sets
+    // ZADD, ZRANGE, ZRANK, ZREM
+
+    // await client.zAdd("cart", [
+    //   {
+    //     score: 100,
+    //     value: "Cart 1",
+    //   },
+    //   {
+    //     score: 150,
+    //     value: "Cart 2",
+    //   },
+    //   {
+    //     score: 10,
+    //     value: "Cart 3",
+    //   },
+    // ]);
+
+    // const getCartItems = await client.zRange("cart", 0, -1);
+    // console.log(getCartItems);
+
+    // const extractAllCartItemsWithScore = await client.zRangeWithScores(
+    //   "cart",
+    //   0,
+    //   -1
+    // );
+    // console.log(extractAllCartItemsWithScore);
+
+    // const cartTwoRank = await client.zRank("cart", "Cart 2");
+    // console.log(cartTwoRank);
+
+    // hash -> HSET, HGET, HGETALL, HDEL
+
+    await client.hSet("product:1" , {
+        name: "Laptop",
+        price: "1000",
+        stock: "50"
+    });
+
+    const getProductName = await client.hGet("product:1", "name");
+    console.log(getProductName);
 
     } catch (err) {
         console.error(err);
