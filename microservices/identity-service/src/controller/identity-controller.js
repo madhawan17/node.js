@@ -1,3 +1,5 @@
+const User = require('../models/user');
+const generateTokens = require('../utils/generateToken');
 const logger = require('../utils/logger');
 const validateRegistration = require('../utils/validator');
 
@@ -15,5 +17,38 @@ const registerUser = async(req, res) => {
                 message: error.details[0].message,
             })
         }
-    } catch (e) {}
+
+        const {email, password, username} = req.body
+
+        let user = await User.findOne ({ $or : [{email}, {username}]});
+        if(user) {
+            logger.warn("user already exist");
+            return res.status(400).json({
+                success: false,
+                message: "user already exist",
+            })
+        }
+
+        user = new User({username, password, email})
+        await user.save()
+        logger.warn("user saved succesfully", user._id);
+
+        const {accessToken, refreshToken} = await generateTokens(user);
+
+        res.status(201).json({
+            success: true,
+            message: "user register succesfully",
+            accessToken,
+            refreshToken
+        })
+
+    } catch (e) {
+        logger.error('registration error occured', e)
+        res.status(500).json({
+            success: false,
+            message : 'internal server error'
+        })
+    }
 }
+
+module.exports = {registerUser};
