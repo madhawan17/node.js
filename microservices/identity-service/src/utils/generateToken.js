@@ -1,25 +1,28 @@
-const jwt = require('jsonwebtoken');
-const crypto = require('crypto');
+const jwt = require("jsonwebtoken");
+const crypto = require("crypto");
+const RefreshToken = require("../models/refreshToken");
 
-const generateTokens = async(user) => {
-    const accessToken = jwt.sign({
-        userId  : user._id,
-        username : user.username
-    }, process.env.JWT_SECRET, {expiresIn: '60m'})
+const generateTokens = async (user) => {
+  const accessToken = jwt.sign(
+    {
+      userId: user._id,
+      username: user.username,
+    },
+    process.env.JWT_SECRET,
+    { expiresIn: "60m" }
+  );
 
+  const refreshToken = crypto.randomBytes(40).toString("hex");
+  const expiresAt = new Date();
+  expiresAt.setDate(expiresAt.getDate() + 7); // refresh token expires in 7 days
 
-    const refreshToken = crypto.randomBytes(40).toString('hex');
-    const expiresAt = new Date();
-    expiresAt.setDate(expiresAt.getDate() + 7) // refresh token expores in 7 day
+  await RefreshToken.create({
+    token: refreshToken,
+    user: user._id,
+    expiresAt,
+  });
 
-    await refreshToken.create({
-        token : refreshToken,
-        user : user._id,
-        expiresAt
-    })
-
-    return { accessToken, refreshToken}
-
+  return { accessToken, refreshToken };
 };
 
 module.exports = generateTokens;
